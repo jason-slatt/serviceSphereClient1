@@ -59,6 +59,7 @@ class _AdminProfileState extends State<AdminProfile> {
               _user = User(
                 name: userData['name'] ?? '',
                 email: userData['email'] ?? '',
+                password: userData['password']
                 // Add more fields as needed
               );
               _isLoading = false;
