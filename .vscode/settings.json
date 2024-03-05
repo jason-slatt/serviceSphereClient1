@@ -1,0 +1,5 @@
+{
+    "emulator.emulatorPathWindows": "C:\\Users\\SL4TT\\.android\\avd",
+    "emulator.androidColdBoot": true,
+    "avdmanager.sdkPath": "C:\\Users\\SL4TT\\AppData\\Local\\Android\\Sdk\\cmdline-tools\\latest\\.installer"
+}
