@@ -10,7 +10,7 @@ import 'package:service_sphere/model/user.dart';
        type: ''
    );
    User get user => _user;
-   void setUser(String user){
+   void setUser(user){
      _user = User.fromJson(user);
      notifyListeners();
    }

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class User{
-  late final id;
+  late final String? id;
   late final String name;
   late final String email;
   late final String password;
@@ -31,6 +31,16 @@ class User{
 
 
   );
+  factory User.fromJson(Map<String,dynamic> json) {
+    return User(
+      id: json['_id'],
+      name: json['name'] ?? '',
+      email: json['  email'] ?? '',
+      password: json["password"] ?? '',
+      token: json["token"] ?? '',
+      type: json["type"] ?? '',
+    );
+  }
 
   Map<String, dynamic> toMap() => {
     "id": id,
@@ -44,7 +54,7 @@ class User{
 
 
   String toJson() => json.encode(toMap());
-  factory User.fromJson(String str) => User.fromMap(json.decode(str));
+ // factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
 }
 

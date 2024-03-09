@@ -51,7 +51,7 @@ class _AdminProfileState extends State<AdminProfile> {
       // Fetch user information using the userId
       homeServices.fetchUserId(context: context, userId: widget.userId).then((provider) {
         if (!provider.error) {
-          final userData = provider.data as Map<String, dynamic>; // Cast to Map<String, dynamic> or null
+          final userData = provider.data!.toMap(); // Cast to Map<String, dynamic> or null
           if (userData != null) {
             // User data available, parse and assign to _user
             setState(() {

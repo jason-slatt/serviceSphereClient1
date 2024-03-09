@@ -87,7 +87,7 @@ class HomeServices{
       print('Response status code: ${productRes.statusCode}');
       print('Response body: ${productRes.body}');
       if(productRes.statusCode == 200 ) {
-        final jsonData = jsonDecode(productRes.body);
+        Map<String, dynamic> jsonData = jsonDecode(productRes.body);
         final user = User.fromJson(jsonData);
         print('Parsed user: $user');
         return ApiResponse<User>(data: user);
