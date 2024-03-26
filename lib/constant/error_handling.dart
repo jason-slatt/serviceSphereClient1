@@ -12,6 +12,8 @@ void httpErrorHandler(
     case 200:
       onsave();
       break;
+    case 201:
+      showSnackBar(context, jsonDecode(response.body)['message']);
     case 400:
       showSnackBar(context, jsonDecode(response.body)['message']);
       break;

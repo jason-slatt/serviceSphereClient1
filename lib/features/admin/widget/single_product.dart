@@ -9,7 +9,7 @@ final String image;
       shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Container(
         padding: const EdgeInsets.only(top: 0),
-        child: Image.network(image)
+        child: Image.network(image, fit: BoxFit.cover,)
       ),
     );
   }

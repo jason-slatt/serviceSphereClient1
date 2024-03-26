@@ -30,7 +30,7 @@ class ServicesCategories extends StatelessWidget {
                     child: Column(
                       children: [
                         Card(
-                          elevation: 0,
+                          elevation: 1,
                           child: Row(
                             //mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

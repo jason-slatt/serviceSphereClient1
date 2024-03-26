@@ -12,7 +12,7 @@ Future<List<File>> pickImages() async{
   try{
     var files = await FilePicker.platform.pickFiles(
       type: FileType.image,
-      allowMultiple: false
+      allowMultiple: true
     );
     if(files != null && files.files.isNotEmpty){
         for(int i = 0; i < files.files.length ; i++){

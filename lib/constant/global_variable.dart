@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 String uri = 'http://172.20.10.5:8080';
 
 class GlobalVariables {
-static const secondaryColor = Color.fromRGBO(0, 112, 255, 1);
+static const secondaryColor = Color.fromRGBO(0, 112, 255, 10);
 static const backgroundColor = Color.fromRGBO(255, 255, 255, 1);
 static const priceColor = Color.fromARGB(255, 0, 255, 21);
 static const selectedNavBarColor = Colors.black;
 static const unSelectedNavBarColor = Colors.grey;
+
 
 
 

@@ -25,9 +25,10 @@ class BeautyWidget extends StatelessWidget {
                 return  GestureDetector(
                   onTap:() => navigateToCategoryScreen(context, GlobalVariables.beauty[index]['name']!),
                   child: Container(
-                    padding: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
                     height: 140,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Card(
                           elevation: 0,
@@ -53,6 +54,7 @@ class BeautyWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 3, right: 50),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(GlobalVariables.beauty[index]['name']!),

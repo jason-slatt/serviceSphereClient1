@@ -26,6 +26,7 @@ class AdminServices {
     required List<File> images,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    EasyLoading.show(status: 'creating your post....',);
     try {
       final url = Uri.parse('https://api.cloudinary.com/v1_1/dwhcxxkki/upload');
       List<String> imageUrls = [];
@@ -73,10 +74,9 @@ class AdminServices {
           response: res,
           context: context,
           onsave: () {
-            EasyLoading.showProgress(0.3, status: 'Providing');
-            EasyLoading.dismiss();
-            showSnackBar(context, 'service published');
+            EasyLoading.show(status: 'service published');
             Navigator.pop(context);
+            EasyLoading.dismiss();
           });
     } catch (e) {
       print(e);
@@ -109,7 +109,7 @@ class AdminServices {
              return ApiResponse<List<Product>>(data: productList);
 
            }
-           return ApiResponse<List<Product>>(error: true, errorMessage: 'An error happen');
+           return ApiResponse<List<Product>>(error: true, errorMessage: 'please check your network connection');
       } catch(e){
         print(e);
         return ApiResponse<List<Product>>(error: true, errorMessage: e.toString());

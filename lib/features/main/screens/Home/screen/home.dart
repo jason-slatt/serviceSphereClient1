@@ -134,90 +134,93 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    'Services',
-                    style:
-                    TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TextButton(
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 180),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      'view all >>',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: GlobalVariables.secondaryColor),
+                      'Services',
+                      style:
+                      TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  onPressed: () {
-        
-                  },
-                )
-              ],
-            ),
-            const ServicesCategories(),
-            Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    'Cleaning',
-                    style:
-                    TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TextButton(
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 180),
-                    child: Text(
-                      'view all >>',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: GlobalVariables.secondaryColor),
+                  TextButton(
+                    child: const Padding(
+                      padding: EdgeInsets.only(left: 180),
+                      child: Text(
+                        'view all >>',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: GlobalVariables.secondaryColor),
+                      ),
                     ),
-                  ),
-                  onPressed: () {
+                    onPressed: () {
 
-                  },
-                )
-              ],
-            ),
-            const CleaningWidgte(),
-            Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    'Beauty',
-                    style:
-                    TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TextButton(
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 180),
+                    },
+                  )
+                ],
+              ),
+              const ServicesCategories(),
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      'view all >>',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: GlobalVariables.secondaryColor),
+                      'Cleaning',
+                      style:
+                      TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  onPressed: () {
+                  TextButton(
+                    child: const Padding(
+                      padding: EdgeInsets.only(left: 180),
+                      child: Text(
+                        'view all >>',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: GlobalVariables.secondaryColor),
+                      ),
+                    ),
+                    onPressed: () {
 
-                  },
-                )
-              ],
-            ),
-            const BeautyWidget()
-          ],
+                    },
+                  )
+                ],
+              ),
+              const CleaningWidgte(),
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      'Beauty',
+                      style:
+                      TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  TextButton(
+                    child: const Padding(
+                      padding: EdgeInsets.only(left: 180),
+                      child: Text(
+                        'view all >>',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: GlobalVariables.secondaryColor),
+                      ),
+                    ),
+                    onPressed: () {
+
+                    },
+                  )
+                ],
+              ),
+              const BeautyWidget()
+            ],
+          ),
         ),
       ),
     );

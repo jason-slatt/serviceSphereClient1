@@ -30,7 +30,6 @@ class HomeServices{
         for (var json in jsonData) {
           productList.add(Product.fromJson(json));
         }
-        print('Parsed productList: $productList');
         return ApiResponse<List<Product>>(data: productList);
       }
       return ApiResponse<List<Product>>(error: true, errorMessage: 'An error happen');
@@ -96,6 +95,32 @@ class HomeServices{
     } catch(e){
       print(e);
       return ApiResponse<User>(error: true, errorMessage: e.toString());
+    }
+  }
+
+  Future<ApiResponse<Product>> fetchServiceId({required BuildContext context,required serviceId}) async {
+    var userProvider = Provider.of<UserProvider>(context, listen: false).user;
+    var url = Uri.parse('$uri/fetchServiceId/$serviceId');
+    try{
+      http.Response productRes = await http.get(
+        url,
+        headers: {
+          'content-type': 'application/json; charset=UTF-8',
+          'X-AUTH-TOKEN': userProvider.token!
+        },
+      );
+      print('Response status code: ${productRes.statusCode}');
+      print('Response body: ${productRes.body}');
+      if(productRes.statusCode == 200 ) {
+        Map<String, dynamic> jsonData = jsonDecode(productRes.body);
+        final user = Product.fromJson(jsonData);
+        print('Parsed user: $user');
+        return ApiResponse<Product>(data: user);
+      }
+      return ApiResponse<Product>(error: true, errorMessage: 'An error happen');
+    } catch(e){
+      print(e);
+      return ApiResponse<Product>(error: true, errorMessage: e.toString());
     }
   }
 }

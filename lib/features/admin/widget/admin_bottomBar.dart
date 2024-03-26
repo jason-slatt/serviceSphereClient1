@@ -1,3 +1,4 @@
+import 'package:ff_navigation_bar_plus/ff_navigation_bar_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:service_sphere/constant/global_variable.dart';
@@ -5,8 +6,12 @@ import 'package:badges/badges.dart';
 import 'package:service_sphere/features/admin/screens/admin_screen.dart';
 import 'package:service_sphere/features/admin/screens/post_sreen.dart';
 import 'package:service_sphere/features/admin/screens/profile.dart';
+import 'package:service_sphere/features/admin/screens/tools_screen.dart';
 import 'package:service_sphere/features/main/screens/Home/screen/home.dart';
+import 'package:service_sphere/features/main/screens/appointment_screen.dart';
 import 'package:service_sphere/providers/user_provider.dart';
+
+import '../screens/profile2.dart';
 
 
 class AdminBottomBar extends StatefulWidget {
@@ -24,10 +29,9 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
 
   List<Widget> pages = [
     const HomeScreen(),
-    const PostScreen(),
-    const AdminProfile(),
-
-
+    const AppointmentScreen(),
+    const BusinessTools(),
+    const AdminProfile2(),
   ];
 
   void updatePage(int page){
@@ -41,45 +45,38 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
 
     return Scaffold(
       body: pages[_page],
-      bottomNavigationBar: BottomNavigationBar(
-        unselectedFontSize: 25,
-        selectedFontSize: 30,
-        currentIndex: _page,
-        selectedItemColor: GlobalVariables.selectedNavBarColor,
-        unselectedItemColor: GlobalVariables.unSelectedNavBarColor,
-        onTap: updatePage,
+      bottomNavigationBar: FFNavigationBar(
+        theme: FFNavigationBarTheme(
+          barHeight: 70,
+          barBackgroundColor: Colors.white,
+          //selectedItemBorderColor: Colors.yellow,
+          selectedItemBackgroundColor: GlobalVariables.secondaryColor,
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.black,
+        ),
+        selectedIndex: _page,
+        onSelectTab: (index) {
+          setState(() {
+            _page = index;
+          });
+        },
         items: [
-          //HOME
-          BottomNavigationBarItem(
-              icon: Container(
-            width:bottomBarWidth ,
-            height: 10,
-            child: const  Icon(
-              Icons.home_outlined,
-            ),
+          FFNavigationBarItem(
+            iconData: Icons.home,
+            label: 'Home',
           ),
-              label: ''
+          FFNavigationBarItem(
+            iconData: Icons.calendar_today,
+            label: 'appointment',
           ),
-          //Booking
-          BottomNavigationBarItem(icon: Container(
-            width:bottomBarWidth ,
-            height: 3,
-            child: const  Icon(
-              Icons.publish_outlined,
-            ),
+          FFNavigationBarItem(
+            iconData: Icons.add_business,
+            label: 'tools',
           ),
-              label: ''
+          FFNavigationBarItem(
+            iconData: Icons.person,
+            label: 'profile',
           ),
-          //Account
-          BottomNavigationBarItem(icon: Container(
-            width:bottomBarWidth ,
-            height: 3,
-            child: const  Icon(
-              Icons.person_2_outlined,
-            ),
-          ),
-              label: ''
-          )
         ],
       ),
     );

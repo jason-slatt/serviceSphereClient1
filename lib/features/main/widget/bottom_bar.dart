@@ -1,7 +1,9 @@
+import 'package:ff_navigation_bar_plus/ff_navigation_bar_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:service_sphere/constant/global_variable.dart';
 import 'package:badges/badges.dart';
 import 'package:service_sphere/features/main/screens/Home/screen/home.dart';
+import 'package:service_sphere/features/main/screens/appointment_screen.dart';
 
 
 class BottomBar extends StatefulWidget {
@@ -19,7 +21,7 @@ class _BottomBarState extends State<BottomBar> {
 
   List<Widget> pages = [
     const HomeScreen(),
-    const Center(child : Text('Booking page')),
+    const AppointmentScreen(),
     const Center(child : Text('Account page page')),
 
 
@@ -34,65 +36,34 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[_page],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _page,
-        selectedItemColor: GlobalVariables.selectedNavBarColor,
-        unselectedItemColor: GlobalVariables.unSelectedNavBarColor,
-        backgroundColor: GlobalVariables.backgroundColor,
-        iconSize: 28,
-        onTap: updatePage,
+      bottomNavigationBar:FFNavigationBar(
+        theme: FFNavigationBarTheme(
+          barHeight: 70,
+          barBackgroundColor: Colors.white,
+          //selectedItemBorderColor: Colors.yellow,
+          selectedItemBackgroundColor: GlobalVariables.secondaryColor,
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.black,
+        ),
+        selectedIndex: _page,
+        onSelectTab: (index) {
+          setState(() {
+            _page = index;
+          });
+        },
         items: [
-          //HOME
-          BottomNavigationBarItem(icon: Container(
-            width:bottomBarWidth ,
-            decoration: BoxDecoration(
-              border: Border(
-                top:BorderSide(
-                  color: _page == 0 ? GlobalVariables.selectedNavBarColor : GlobalVariables.backgroundColor,
-                  width: bottomBarBorderWidth
-                )
-              )
-            ),
-            child: const  Icon(
-              Icons.home_outlined,
-            ),
+          FFNavigationBarItem(
+            iconData: Icons.home,
+            label: 'Home',
           ),
-            label: ''
+          FFNavigationBarItem(
+            iconData: Icons.calendar_today,
+            label: 'appointment',
           ),
-          //Booking
-          BottomNavigationBarItem(icon: Container(
-            width:bottomBarWidth ,
-            decoration: BoxDecoration(
-                border: Border(
-                    top:BorderSide(
-                        color: _page == 1 ? GlobalVariables.selectedNavBarColor : GlobalVariables.backgroundColor,
-                        width: bottomBarBorderWidth
-                    )
-                )
-            ),
-            child: const  Icon(
-              Icons.calendar_month_outlined,
-            ),
+          FFNavigationBarItem(
+            iconData: Icons.person,
+            label: 'profile',
           ),
-              label: ''
-          ),
-          //Account
-          BottomNavigationBarItem(icon: Container(
-            width:bottomBarWidth ,
-            decoration: BoxDecoration(
-                border: Border(
-                    top:BorderSide(
-                        color: _page == 2 ? GlobalVariables.selectedNavBarColor : GlobalVariables.backgroundColor,
-                        width: bottomBarBorderWidth
-                    )
-                )
-            ),
-            child: const  Icon(
-              Icons.person_2_outlined,
-            ),
-          ),
-              label: ''
-          )
         ],
       ),
     );

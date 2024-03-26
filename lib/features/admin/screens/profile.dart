@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:service_sphere/constant/global_variable.dart';
 import 'package:service_sphere/features/admin/widget/Admin_profile_bar/About.dart';
 import 'package:service_sphere/features/admin/widget/Admin_profile_bar/gallery.dart';
 import 'package:service_sphere/features/admin/widget/Admin_profile_bar/review.dart';
@@ -19,10 +20,10 @@ class AdminProfile extends StatefulWidget {
   const AdminProfile({super.key, this.userId});
 
   @override
-  State<AdminProfile> createState() => _AdminProfileState();
+  State<AdminProfile> createState() => AdminProfileState();
 }
 
-class _AdminProfileState extends State<AdminProfile> {
+class AdminProfileState extends State<AdminProfile> {
   HomeServices homeServices = HomeServices();
    ApiResponse<User> _provider = ApiResponse<User>();
   bool _isLoading = false;
@@ -95,300 +96,131 @@ class _AdminProfileState extends State<AdminProfile> {
     return  DefaultTabController(
       length: 4,
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Profile'),
+          backgroundColor: GlobalVariables.secondaryColor,
+        ),
         body: _isLoading? const Center(child: CircularProgressIndicator(),)
-            : _user != null && _user.id != user.id ? Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // business description
-                  Padding(
-                    padding: const EdgeInsets.only(right: 60),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 60,
+            : _user != null ? SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                          children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // business description
+                      Padding(
+                        padding: const EdgeInsets.only(right: 60),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 60,
+                            ),
+                            Text(
+                              _user.name,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w400
+                              ),
+                            ),
+                            Text(
+                              _user.email,
+                              style:  const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400
+                              ),
+                            ),
+                            GFRating(
+                              onChanged: (double rating) {  },
+                              value: 5,
+                              color: Colors.yellowAccent,
+                              size: 16,
+                            )
+                          ],
                         ),
-                        Text(
-                          _user.name,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 21,
-                              fontWeight: FontWeight.w400
+                      ),
+                      //profile picture
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/defaultPicture.png',),
+                              fit: BoxFit.cover
+                            ),
+                              color: Colors.grey[300],
+                              shape: BoxShape.circle
+                          ),
+                          child: Stack(
+                            children: [
+                              const Positioned(
+                                left: 300,
+                                  right: 10,
+                                  child: Icon(Icons.add, color: Colors.red,)
+                              )
+                            ],
                           ),
                         ),
-                        Text(
-                          _user.email,
-                          style:  const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        GFRating(
-                          onChanged: (double rating) {  },
-                          value: 5,
-                          color: Colors.yellowAccent,
-                          size: 16,
-                        )
-                      ],
-                    ),
-                  ),
-                  //profile picture
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          shape: BoxShape.circle
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 5,),
-            // Admin activities
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: adminActivitiesColors,
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Center(child: Text('Edit profile', style: TextStyle(fontWeight: FontWeight.w400),)),
-                        ),
-                      ),
-                    ),
+                ),
+                const SizedBox(height: 5,),
+                // Admin activities and Socials
+                 Builder(
+                     builder:(_){
+                       if(_user.id != user.id){
+                         return AdminProfileSocials();
+                       } else {
+                         return AdminActivities();
+                       }
+                     }
+                 ),
+                const SizedBox(height: 20,),
+                //tab Bar
+                const TabBar(
+                  labelColor: Colors.black ,
+                  unselectedLabelColor: Colors.grey,
+                  indicator: UnderlineTabIndicator(
+                      borderSide: BorderSide.none
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: adminActivitiesColors,
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: const Padding(
-                          padding:  EdgeInsets.all(5.0),
-                          child: Center(child: Text('upload Gallery',style: TextStyle(fontWeight: FontWeight.w400))),
-                        ),
-
-                      ),
-                    ),
+                  tabs: [
+                    Text('About'),
+                    Text('Services'),
+                    Text('Gallery'),
+                    Text('Review'),
+                  ],
+                ),
+                const Expanded(
+                  child: TabBarView(
+                    children: [
+                      AboutScreen(),
+                      ServicesScreen(),
+                      Gallery(),
+                      Review()
+                    ],
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: adminActivitiesColors,
-                            borderRadius: BorderRadius.circular(5)
+                )
+                          ],
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Center(child: Text('Upload Plan',style: TextStyle(fontWeight: FontWeight.w400))),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
               ),
-            ),
-            const SizedBox(height: 10,),
-
-            // available option
-            AdminProfileSocials(),
-
-            const SizedBox(height: 20,),
-            //tab Bar
-            const TabBar(
-              labelColor: Colors.black ,
-              unselectedLabelColor: Colors.grey,
-              indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide.none
-              ),
-              tabs: [
-                Text('About'),
-                Text('Services'),
-                Text('Gallery'),
-                Text('Review'),
-              ],
-            ),
-            const Expanded(
-              child: TabBarView(
-                children: [
-                  AboutScreen(),
-                  ServicesScreen(),
-                  Gallery(),
-                  Review()
-                ],
-              ),
-            )
-          ],
-        ) : Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // business description
-                  Padding(
-                    padding: const EdgeInsets.only(right: 60),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 60,
-                        ),
-                        Text(
-                          user.name,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 21,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text(
-                          user.email,
-                          style:  const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        GFRating(
-                          onChanged: (double rating) {  },
-                          value: 5,
-                          color: Colors.yellowAccent,
-                          size: 16,
-                        )
-                      ],
-                    ),
-                  ),
-                  //profile picture
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          shape: BoxShape.circle
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 5,),
-            // Admin activities
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: adminActivitiesColors,
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Center(child: Text('Edit profile', style: TextStyle(fontWeight: FontWeight.w400),)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: adminActivitiesColors,
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: const Padding(
-                          padding:  EdgeInsets.all(5.0),
-                          child: Center(child: Text('upload Gallery',style: TextStyle(fontWeight: FontWeight.w400))),
-                        ),
-
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: adminActivitiesColors,
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Center(child: Text('Upload Plan',style: TextStyle(fontWeight: FontWeight.w400))),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 10,),
-
-            // available option
-            AdminProfileSocials(),
-
-            const SizedBox(height: 20,),
-            //tab Bar
-            const TabBar(
-              labelColor: Colors.black ,
-              unselectedLabelColor: Colors.grey,
-              indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide.none
-              ),
-              tabs: [
-                Text('About'),
-                Text('Services'),
-                Text('Gallery'),
-                Text('Review'),
-              ],
-            ),
-            const Expanded(
-              child: TabBarView(
-                children: [
-                  AboutScreen(),
-                  ServicesScreen(),
-                  Gallery(),
-                  Review()
-                ],
-              ),
-            )
-          ],
-
-        )
-
+            ) : const Text('sorry this user do exist '),
       ),
     );
   }
 }
 
-Widget AdminProfileSocials() => Row(
+
+Widget AdminProfileSocials() =>  Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
       Column(
@@ -399,8 +231,8 @@ Widget AdminProfileSocials() => Row(
       ),
       Column(
         children: [
-          IconButton(onPressed: () {}, icon: const Icon( CupertinoIcons.phone,size: 20)),
-          const Text('CallNow',style: TextStyle(fontSize:10),)
+          IconButton(onPressed: () {}, icon: const Icon( CupertinoIcons.calendar_badge_plus,size: 20)),
+          const Text('BookNow',style: TextStyle(fontSize:10),)
         ],
       ),
       Column(
@@ -416,5 +248,59 @@ Widget AdminProfileSocials() => Row(
         ],
       ),
     ]
+);
+
+Widget AdminActivities() =>  Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+  child: Row(
+    children: [
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Center(child: Text('Edit profile', style: TextStyle(fontWeight: FontWeight.w400),)),
+            ),
+          ),
+        ),
+      ),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: const Padding(
+              padding:  EdgeInsets.all(5.0),
+              child: Center(child: Text('upload Gallery',style: TextStyle(fontWeight: FontWeight.w400))),
+            ),
+
+          ),
+        ),
+      ),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Center(child: Text('Upload Plan',style: TextStyle(fontWeight: FontWeight.w400))),
+            ),
+          ),
+        ),
+      )
+    ],
+  ),
 );
 

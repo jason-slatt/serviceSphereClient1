@@ -23,6 +23,7 @@ class AuthService {
     required String email,
     required String password}) async {
     try {
+      EasyLoading.show(status: 'Creating your Account....',);
       User user = User(
         name: name,
         email: email,
@@ -39,10 +40,11 @@ class AuthService {
           response: res,
           context: context,
           onsave: () {
-            showSnackBar(
-                context, 'Account created , logIn with the same credentials');
+            EasyLoading.show(
+              status: 'Account Created, SignIn with the same credentials',);
             Navigator.pushNamed(context, LoginScreen.routeName);
-          });
+          }
+      );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -54,6 +56,7 @@ class AuthService {
     required String password
 })async{
     try {
+      EasyLoading.show(status: 'Signing In....',);
       var user = Provider.of<UserProvider>(context, listen: false).user;
       var url = Uri.parse('$uri/api/signin');
       http.Response res = await http.post(
@@ -74,7 +77,7 @@ class AuthService {
           context: context,
           onsave: () async {
             SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-            Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+            Provider.of<UserProvider>(context, listen: false).setUser(jsonDecode(res.body));
             var userToken = jsonDecode(res.body)['token'];
             if(userToken != null){
               sharedPreferences.setString('X-AUTH-TOKEN', userToken);
@@ -82,7 +85,6 @@ class AuthService {
               print('no token found');
             }
             Navigator.pushNamedAndRemoveUntil(context, Verification.routeName, (route) => false);
-            EasyLoading.showProgress(0.3, status: '',);
             EasyLoading.dismiss();
           }
       );

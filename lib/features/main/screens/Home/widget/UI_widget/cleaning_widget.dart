@@ -28,6 +28,7 @@ class CleaningWidgte extends StatelessWidget {
                     padding: const EdgeInsets.all(2),
                     height: 140,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Card(
                           elevation: 0,

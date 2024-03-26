@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:service_sphere/constant/global_variable.dart';
 import 'package:service_sphere/features/admin/screens/admin_screen.dart';
+import 'package:service_sphere/features/admin/screens/tools_screen.dart';
 import 'package:service_sphere/features/admin/widget/admin_bottomBar.dart';
 import 'package:service_sphere/features/main/screens/Home/screen/home.dart';
 import 'package:service_sphere/features/auth/screens/auth_screen.dart';
@@ -10,8 +13,9 @@ import 'package:service_sphere/features/auth/services/auth_servives.dart';
 import 'package:service_sphere/features/main/widget/bottom_bar.dart';
 import 'package:service_sphere/providers/user_provider.dart';
 import 'package:service_sphere/route.dart';
+import 'package:service_sphere/welcome.dart';
 
-void main() {
+void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -19,6 +23,7 @@ void main() {
       )
     ],
       child: const MyApp()));
+      configLoading();
 }
 
 class MyApp extends StatefulWidget {
@@ -58,7 +63,7 @@ class _MyAppState extends State<MyApp> {
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
         // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
+        // try changing the seedColor in the coloTrScheme below to Colors.green
         // and then invoke "hot reload" (save your changes or press the "hot
         // reload" button in a Flutter-supported IDE, or press "r" if you used
         // the command line to start the app).
@@ -73,26 +78,22 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       onGenerateRoute: (setting) => generateRoute(setting),
-      home:  user != null && user.token!.isNotEmpty
-          ? user.type == 'admin'
-          ? const BottomBar()
-          : const BottomBar()
-          : const AuthScreen()
+      home: const AuthScreen()
     );
   }
 }
 void configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 4000)
-    ..indicatorType = EasyLoadingIndicatorType.cubeGrid
-    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
     ..radius = 10.0
-    ..progressColor = Colors.black
-    ..backgroundColor = GlobalVariables.backgroundColor
-    ..indicatorColor = GlobalVariables.secondaryColor
+    ..progressColor = Colors.blue
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
     ..textColor = Colors.yellow
-    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..maskColor = Colors.blue.withOpacity(100)
     ..userInteractions = true
     ..dismissOnTap = false;
   // ..customAnimation = CustomAnimation();
